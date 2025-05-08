@@ -12,7 +12,7 @@ app.use(cors());
 
 // Importa as rotas
 const userRoutes = require("./routes/user.routes");
-const todoRoutes = require("./routes/todo.routes");
+const todoRoutes = require("./routes/to_do.routes");
 
 // Define as rotas base da API
 app.use("/api/users", userRoutes);

@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const todoController = require('../controllers/to_do.controller');
-const authenticateToken = require('../middlewares/authMiddleware');
+const authenticateToken = require('../middlewares/auth.middleware');
 
 // Todas as rotas abaixo exigem token JWT válido
 

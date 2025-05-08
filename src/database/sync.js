@@ -1,6 +1,6 @@
 const sequelize = require('./sequelize');
 const User = require('../models/User');
-const Todo = require('../models/Todo');
+const Todo = require('../models/To_do');
 
 //sincroniza todos os modelos com o banco de dados
 const syncDatabase = async ()=> {

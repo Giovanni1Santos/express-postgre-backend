@@ -5,8 +5,8 @@ const User = require('./User');
 //Definindo o modelo To do
 const Todo = sequelize.define('Todo', {
     id:{
-        type: DataTypes.INTERGER,
-        prymaryKey: true,
+        type: DataTypes.INTEGER,
+        primaryKey: true,
         autoIncrement: true,
     },
     title: {
@@ -23,8 +23,8 @@ const Todo = sequelize.define('Todo', {
     },
 });
 
-Todo.belongsTo(User, { foreinKey: 'userId' });
-User.hasMany(Todo, { foreingKey: 'userId' });
+Todo.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Todo, { foreignKey: 'userId' });
 
 //Exportando o modelo Todo
 module.exports = Todo
