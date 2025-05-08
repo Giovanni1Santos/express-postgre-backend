@@ -1,13 +1,9 @@
-//controller de tarefas 
-
-
-
 const Todo = require('../models/To_do');
 
 // Criar uma nova tarefa
 module.exports.createTodo = async (req, res) => {
   const { title, description } = req.body;
-  const userId = req.userId;  // Garantir que o usuário esteja autenticado
+  const userId = req.userId;
 
   try {
     const todo = await Todo.create({ title, description, userId });
@@ -30,6 +26,25 @@ module.exports.getTodos = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Erro ao listar tarefas' });
+  }
+};
+
+// Buscar uma tarefa específica por ID
+module.exports.getTodoById = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.userId;
+
+  try {
+    const todo = await Todo.findOne({ where: { id, userId } });
+
+    if (!todo) {
+      return res.status(404).json({ message: 'Tarefa não encontrada' });
+    }
+
+    res.status(200).json(todo);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Erro ao buscar tarefa' });
   }
 };
 
