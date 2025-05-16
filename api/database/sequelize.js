@@ -20,7 +20,7 @@ if (connectionString) {
 } else {
   // Conexão local via variáveis separadas
   sequelize = new Sequelize(
-    process.env.POSTGRES_DB,
+    process.env.POSTGRES_DATABASE,
     process.env.POSTGRES_USER,
     process.env.POSTGRES_PASSWORD,
     {
