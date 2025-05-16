@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "sync:db": "node scripts/syncDatabase.js",
     "dev": "nodemon api/index.js",
     "start:app": "nodemon api/index.js",
     "start:database": "docker compose up -d",
