@@ -1,5 +1,6 @@
 require('dotenv').config();
 const { Sequelize } = require('sequelize');
+const pg = require('pg'); // ✅ Importação manual do pg
 
 const connectionString = process.env.DATABASE_URL;
 
@@ -9,6 +10,7 @@ if (connectionString) {
   // Conexão via URL (Neon, Vercel, etc)
   sequelize = new Sequelize(connectionString, {
     dialect: 'postgres',
+    dialectModule: pg, // ✅ Aqui você usa o pg diretamente
     logging: false,
     dialectOptions: {
       ssl: {
@@ -27,6 +29,7 @@ if (connectionString) {
       host: process.env.POSTGRES_HOST,
       port: process.env.POSTGRES_PORT,
       dialect: 'postgres',
+      dialectModule: pg, // ✅ Também aqui
       logging: false,
       dialectOptions: {
         ssl: false,
