@@ -6,20 +6,19 @@ const connectionString = process.env.DATABASE_URL;
 let sequelize;
 
 if (connectionString) {
-  // Se existir DATABASE_URL, conecta via ela (Neon ou qualquer outro serviço com URL)
+  // Conexão via URL (Neon, Vercel, etc)
   sequelize = new Sequelize(connectionString, {
     dialect: 'postgres',
     logging: false,
     dialectOptions: {
-      // Tenta ativar SSL só se for preciso (evita erro no local)
-      ssl: connectionString.includes('sslmode=require') ? {
+      ssl: {
         require: true,
         rejectUnauthorized: false,
-      } : false,
+      },
     },
   });
 } else {
-  // Se não tiver DATABASE_URL, conecta local via variáveis separadas
+  // Conexão local via variáveis separadas
   sequelize = new Sequelize(
     process.env.POSTGRES_DB,
     process.env.POSTGRES_USER,
