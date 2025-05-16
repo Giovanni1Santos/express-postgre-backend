@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TOKEN="3a52bbec4f81776e630233043397252558f864582d60abea36efdce871a259a9"
+TOKEN="2b64e22aa0785219e1c28ac128e758cd44af9d451271a88f0a6ea4d44af0441f"
 
 curl -X POST http://localhost:3000/api/todos \
   -H "Authorization: Bearer $TOKEN" \
