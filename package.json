@@ -4,12 +4,13 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "sync:db": "node scripts/syncDatabase.js",
-    "dev": "nodemon api/index.js",
-    "start:app": "nodemon api/index.js",
+    "db:sync": "node api/database/sync.js",
+    "dev": "NODE_ENV=development nodemon api/index.js",
+    "start": "NODE_ENV=production node api/index.js",
     "start:database": "docker compose up -d",
     "stop:database": "docker compose down",
-    "generate-secret-key": "node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\""
+    "generate-secret-key": "node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\"",
+    "vercel-build": "npm install && npm run db:sync"
   },
   "keywords": [],
   "author": "",

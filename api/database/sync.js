@@ -1,16 +1,24 @@
-// api/config/syncDatabase.js
+// api/database/sync.js
 const sequelize = require('./sequelize');
-require('../models/User');
-require('../models/To_do');
+const chalk = require('chalk');
 
-const syncDatabase = async () => {
+module.exports = async () => {
   try {
-    await sequelize.sync({ alter: true }); // ou force: false
-    console.log('✅ Banco de dados sincronizado');
+    console.log(chalk.yellow('\n🔄 Iniciando sincronização manual...'));
+    console.log(chalk.gray('⚠️  Use apenas em desenvolvimento!\n'));
+
+    const options = {
+      alter: true,          // Altera o schema
+      force: false,         // ⚠️ NUNCA use 'true' em produção!
+      logging: console.log  // Mostra SQL gerado
+    };
+
+    await sequelize.sync(options);
+    console.log(chalk.green('\n✅ Sincronização concluída! Schema atualizado.\n'));
+
   } catch (error) {
-    console.error('❌ Erro ao sincronizar o banco de dados:', error);
-    throw error;
+    console.error(chalk.red('\n❌ ERRO na sincronização:'));
+    console.error(chalk.red(error.stack));
+    process.exit(1);
   }
 };
-
-module.exports = syncDatabase;
