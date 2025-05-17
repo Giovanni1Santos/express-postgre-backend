@@ -1,21 +1,17 @@
 require('dotenv').config();
 const serverless = require('serverless-http');
 const app = require('./app');
-const syncDatabase = require('./database/syncDatabase');
 
-const isVercel = process.env.VERCEL === '1'; // Detecta se está na Vercel
-
-if (!isVercel) {
-  // Só roda localmente!
+// Só executa localmente
+if (!process.env.VERCEL) {
+  const syncDatabase = require('./database/syncDatabase');
   syncDatabase().then(() => {
-    console.log('✅ Banco sincronizado');
-    if (require.main === module) {
-      const PORT = process.env.PORT || 3000;
-      app.listen(PORT, () => {
-        console.log(`🚀 Servidor rodando na porta ${PORT}`);
-      });
-    }
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+      console.log(`🚀 Servidor rodando na porta ${PORT}`);
+    });
   });
 }
 
+// Exporta para Vercel
 module.exports = serverless(app);

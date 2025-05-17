@@ -20,7 +20,7 @@ app.use("/api/todos", todoRoutes);
 
 // Rota raiz só pra teste rápido
 app.get('/', (req, res) => {
-  res.send('🚀 Olá mundo está no ar!');
+  res.send('To do List rodando 🚀');
 });
 
 
