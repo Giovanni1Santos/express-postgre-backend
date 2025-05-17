@@ -3,17 +3,20 @@ const serverless = require('serverless-http');
 const app = require('./app');
 const syncDatabase = require('./database/syncDatabase');
 
-// Faz a sincronização antes de exportar (só 1 vez)
-syncDatabase().then(() => {
-  console.log('✅ Banco sincronizado com sucesso');
+const isVercel = process.env.VERCEL === '1';
 
-  // Se estiver rodando localmente (com nodemon ou node diretamente)
-  if (require.main === module) {
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-      console.log(`🚀 Servidor rodando localmente na porta ${PORT}`);
-    });
-  }
-});
+if (!isVercel) {
+  // Rodando localmente -> sincroniza banco
+  syncDatabase().then(() => {
+    console.log('✅ Banco sincronizado');
 
-module.exports = serverless(app);
+    if (require.main === module) {
+      const PORT = process.env.PORT || 3000;
+      app.listen(PORT, () => {
+        console.log(`🚀 Servidor rodando na porta ${PORT}`);
+      });
+    }
+  });
+}
+
+module.exports = serverless(app); // usado pela Vercel
