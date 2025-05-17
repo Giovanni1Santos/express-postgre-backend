@@ -2,9 +2,10 @@ require('dotenv').config();
 const serverless = require('serverless-http');
 const app = require('./app');
 
-const isDev = process.env.NODE_ENV !== 'production';
+console.log("🔥 INDEX.JS CARREGADO 🔥");
 
-if (isDev) {
+// Só rodar localmente o sync e o listen
+if (!process.env.VERCEL) {
   const syncDatabase = require('./database/syncDatabase');
   syncDatabase().then(() => {
     const PORT = process.env.PORT || 3000;
@@ -14,4 +15,5 @@ if (isDev) {
   });
 }
 
+// Exporta a app para Vercel funcionar via serverless
 module.exports = serverless(app);
