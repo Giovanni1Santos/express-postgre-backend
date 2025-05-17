@@ -4,20 +4,17 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "db:sync": "node api/database/sync.js",
-    "dev": "NODE_ENV=development nodemon api/index.js",
-    "start": "NODE_ENV=production node api/index.js",
+    "dev": "nodemon api/index.js",
+    "start:app": "nodemon api/index.js",
     "start:database": "docker compose up -d",
     "stop:database": "docker compose down",
-    "generate-secret-key": "node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\"",
-    "vercel-build": "npm install && npm run db:sync"
+    "generate-secret-key": "node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
-    "chalk": "^5.4.1",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
@@ -28,8 +25,6 @@
     "serverless-http": "^3.2.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10",
-    "chalk": "^5.3.0"
+    "nodemon": "^3.1.10"
   }
-  
 }

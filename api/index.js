@@ -1,29 +1,19 @@
-// api/index.js
 require('dotenv').config();
 const serverless = require('serverless-http');
 const app = require('./app');
-const sequelize = require('./database/sequelize');
+const syncDatabase = require('./database/syncDatabase');
 
-const PORT = process.env.PORT || 3000;
+// Faz a sincronização antes de exportar (só 1 vez)
+syncDatabase().then(() => {
+  console.log('✅ Banco sincronizado com sucesso');
 
-const startServer = async () => {
-  try {
-    // Apenas verifica a conexão (não altera schema)
-    await sequelize.authenticate();
-    console.log('✅ Conexão com o banco verificada');
-
-    if (require.main === module) {
-      app.listen(PORT, () => {
-        console.log(`🚀 Servidor local na porta ${PORT}`);
-      });
-    }
-  } catch (error) {
-    console.error('❌ Falha na inicialização:', error);
-    process.exit(1);
+  // Se estiver rodando localmente (com nodemon ou node diretamente)
+  if (require.main === module) {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+      console.log(`🚀 Servidor rodando localmente na porta ${PORT}`);
+    });
   }
-};
+});
 
-startServer();
-
-// Export para Vercel
-module.exports.handler = serverless(app);
+module.exports = serverless(app);

@@ -19,8 +19,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/todos", todoRoutes);
 
 // Rota raiz só pra teste rápido
-app.get("/", (req, res) => {
-  res.send("To do List rodando 🚀");
+app.get('/', (req, res) => {
+  res.send('Olá mundo da To-do List! 🚀');
 });
 
 // Exporta o app para ser usado no server.js
