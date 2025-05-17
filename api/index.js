@@ -3,13 +3,12 @@ const serverless = require('serverless-http');
 const app = require('./app');
 const syncDatabase = require('./database/syncDatabase');
 
-const isVercel = process.env.VERCEL === '1';
+const isVercel = process.env.VERCEL === '1'; // Detecta se está na Vercel
 
 if (!isVercel) {
-  // Rodando localmente -> sincroniza banco
+  // Só roda localmente!
   syncDatabase().then(() => {
     console.log('✅ Banco sincronizado');
-
     if (require.main === module) {
       const PORT = process.env.PORT || 3000;
       app.listen(PORT, () => {
@@ -19,4 +18,4 @@ if (!isVercel) {
   });
 }
 
-module.exports = serverless(app); // usado pela Vercel
+module.exports = serverless(app);
