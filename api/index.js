@@ -2,6 +2,8 @@ require('dotenv').config();
 const serverless = require('serverless-http');
 const app = require('./app');
 
+console.log("🔥 INDEX.JS CARREGADO 🔥");
+
 // Só executa localmente
 if (!process.env.VERCEL) {
   const syncDatabase = require('./database/syncDatabase');
