@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+
   "scripts": {
-    "dev": "nodemon api/index.js",
-    "start:app": "nodemon api/index.js",
-    "start:database": "docker compose up -d",
-    "stop:database": "docker compose down",
-    "generate-secret-key": "node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\""
-  },
+  "dev": "nodemon server.js",
+  "start": "node server.js",
+  "start:database": "docker compose up -d",
+  "stop:database": "docker compose down",
+  "generate-secret-key": "node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\""
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
