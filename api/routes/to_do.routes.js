@@ -1,25 +1,17 @@
-
+// routes/to_do.routes.js
 const express = require('express');
 const router = express.Router();
-const todoController = require('../controllers/to_do.controller');
 const authenticateToken = require('../middlewares/auth.middleware');
+const todoController = require('../controllers/to_do.controller');
 
-// Todas as rotas abaixo exigem token JWT válido
+// Aplica o middleware de autenticação em todas as rotas de todos
+router.use(authenticateToken);
 
-// Criar tarefa
-router.post('/', authenticateToken, todoController.createTodo);
-
-// Listar todas as tarefas do usuário autenticado
-router.get('/', authenticateToken, todoController.getTodos);
-
-// Buscar tarefa por ID
-router.get('/:id', authenticateToken, todoController.getTodoById);
-
-// Atualizar tarefa por ID
-router.put('/:id', authenticateToken, todoController.updateTodo);
-
-// Deletar tarefa por ID
-router.delete('/:id', authenticateToken, todoController.deleteTodo);
+router.post('/', todoController.createTodo);
+router.get('/', todoController.getTodos);
+router.get('/:id', todoController.getTodoById);
+router.put('/:id', todoController.updateTodo);
+router.delete('/:id', todoController.deleteTodo);
 
 module.exports = router;
 

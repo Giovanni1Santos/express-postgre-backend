@@ -2,15 +2,28 @@ const Todo = require('../models/To_do');
 
 // Criar uma nova tarefa
 module.exports.createTodo = async (req, res) => {
-  const { title, description } = req.body;
+  const { title, description, done = false } = req.body;
   const userId = req.userId;
 
+  // Validação básica
+  if (!title) {
+    return res.status(400).json({ message: 'Título é obrigatório' });
+  }
+
   try {
-    const todo = await Todo.create({ title, description, userId });
+    const todo = await Todo.create({ 
+      title, 
+      description, 
+      done: Boolean(done), // Garante que é booleano
+      userId 
+    });
     res.status(201).json(todo);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Erro ao criar tarefa' });
+    console.error('Erro ao criar tarefa:', error);
+    res.status(500).json({ 
+      message: 'Erro ao criar tarefa',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 };
 
@@ -21,11 +34,17 @@ module.exports.getTodos = async (req, res) => {
   try {
     const todos = await Todo.findAll({
       where: { userId },
+      order: [['createdAt', 'DESC']] // Ordena por data de criação
     });
-    res.status(200).json(todos);
+    
+    // Caso não encontre tarefas, retorna array vazio (200) em vez de 404
+    res.status(200).json(todos || []);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Erro ao listar tarefas' });
+    console.error('Erro ao listar tarefas:', error);
+    res.status(500).json({ 
+      message: 'Erro ao listar tarefas',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 };
 
@@ -35,7 +54,10 @@ module.exports.getTodoById = async (req, res) => {
   const userId = req.userId;
 
   try {
-    const todo = await Todo.findOne({ where: { id, userId } });
+    const todo = await Todo.findOne({ 
+      where: { id, userId },
+      attributes: { exclude: ['userId'] } // Não retorna o userId na resposta
+    });
 
     if (!todo) {
       return res.status(404).json({ message: 'Tarefa não encontrada' });
@@ -43,8 +65,11 @@ module.exports.getTodoById = async (req, res) => {
 
     res.status(200).json(todo);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Erro ao buscar tarefa' });
+    console.error('Erro ao buscar tarefa:', error);
+    res.status(500).json({ 
+      message: 'Erro ao buscar tarefa',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 };
 
@@ -61,15 +86,20 @@ module.exports.updateTodo = async (req, res) => {
       return res.status(404).json({ message: 'Tarefa não encontrada' });
     }
 
-    todo.title = title || todo.title;
-    todo.description = description || todo.description;
-    todo.done = done !== undefined ? done : todo.done;
-    await todo.save();
+    // Atualiza apenas os campos fornecidos
+    if (title !== undefined) todo.title = title;
+    if (description !== undefined) todo.description = description;
+    if (done !== undefined) todo.done = Boolean(done); // Garante valor booleano
 
+    await todo.save();
+    
     res.status(200).json(todo);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Erro ao atualizar tarefa' });
+    console.error('Erro ao atualizar tarefa:', error);
+    res.status(500).json({ 
+      message: 'Erro ao atualizar tarefa',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 };
 
@@ -88,7 +118,10 @@ module.exports.deleteTodo = async (req, res) => {
     await todo.destroy();
     res.status(204).send();
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Erro ao deletar tarefa' });
+    console.error('Erro ao deletar tarefa:', error);
+    res.status(500).json({ 
+      message: 'Erro ao deletar tarefa',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 };
