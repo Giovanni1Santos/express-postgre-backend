@@ -3,7 +3,7 @@
 curl -X POST http://localhost:3000/api/users/register \
   -H "Content-Type: application/json" \
   -d '{
-    "name": "João",
-    "email": "joao@example.com",
-    "password": "senha123"
+    "name": "gigi",
+    "email": "gigi@example.com",
+    "password": "senha1234"
   }'
