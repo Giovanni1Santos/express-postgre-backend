@@ -8,7 +8,11 @@ const app = express();
 app.use(express.json());
 
 // Middleware para permitir requisições de outras origens (CORS)
-app.use(cors());
+app.use(cors({
+  origin: ['https://seu-frontend.vercel.app', 'http://localhost:3000'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Importa as rotas
 const userRoutes = require("./routes/user.routes");
