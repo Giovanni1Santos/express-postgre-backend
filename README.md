@@ -1,3 +1,5 @@
+#Link do vídeo: https://www.loom.com/share/22ada10b852c41feacede4191d3fb5f8?sid=219d2340-3713-4b57-a51f-1275543bc113
+
 # Express PostgreSQL Backend
 
 Este projeto é um backend construído com **Node.js**, **Express** e **PostgreSQL**, utilizando **Sequelize** como ORM. Ele fornece autenticação via **JWT** e uma API para gerenciamento de tarefas (to-dos). Está preparado para deploy em ambientes como **Vercel**.
@@ -67,7 +69,7 @@ docker-compose up -d
 5. Inicie o servidor:
 
 ```bash
-npm start
+npm run dev
 ```
 
 ## Endpoints Principais
